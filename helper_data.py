@@ -1,10 +1,9 @@
-import pandas as pd
 import numpy as np
 import os
-
+import pandas as pd
 import spacy
-from spacy_langdetect import LanguageDetector
 from spacy.language import Language
+from spacy_langdetect import LanguageDetector
 
 
 @Language.factory('language_detector')
@@ -65,6 +64,7 @@ def load_all_walks_comments(folder, keep_en):
     :param keep_en: only keeps english comments
     :return: dataframe containing all the comments
     """
+
     def processing(path, walk):
         df = load_walk(path, 'comments')
         if keep_en:
@@ -74,6 +74,7 @@ def load_all_walks_comments(folder, keep_en):
 
     return load_from_folder(folder, processing, 'comments')
 
+
 def load_all_walks_tags(folder, keep_en):
     """
     Load the tags of all the walks
@@ -82,8 +83,10 @@ def load_all_walks_tags(folder, keep_en):
     :param keep_en: only keeps english tags
     :return: dataframe containing all the tags
     """
+
     def processing(path, walk):
         df = load_walk(path, 'infos')
+
         def process(tags):
             res = []
             for t in tags[1:-1].replace("'", '').split(', '):
