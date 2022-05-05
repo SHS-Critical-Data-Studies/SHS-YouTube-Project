@@ -26,7 +26,7 @@ def load_walk(path, mode):
     if mode == 'comments':
         use_cols = range(1, 6)
     elif mode == 'infos':
-        use_cols = range(1, 10)
+        use_cols = range(1, 12)
     else:
         print('Mode not supported')
         return
@@ -76,6 +76,36 @@ def load_all_walks_comments(folder, keep_en):
 
 
 def load_all_walks_tags(folder, keep_en):
+    """
+    Load the tags of all the walks
+    present in the given folder
+    :param folder: folder containing the walks
+    :param keep_en: only keeps english tags
+    :return: dataframe containing all the tags
+    """
+
+    def processing(path, walk):
+        df = load_walk(path, 'infos')
+
+        def process(tags):
+            res = []
+            for t in tags[1:-1].replace("'", '').split(', '):
+                if keep_en:
+                    if nlp(str(t))._.language['language'] == 'en':
+                        res.append(t)
+                else:
+                    res.append(t)
+
+            return ' '.join(res) if len(res) > 0 else np.nan
+
+        df['keywords'] = df['keywords'].apply(process)
+        df['walk'] = walk
+        return df
+
+    return load_from_folder(folder, processing, 'infos')
+
+
+def load_all_walks_infos(folder, keep_en):
     """
     Load the tags of all the walks
     present in the given folder
