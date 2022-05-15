@@ -83,21 +83,24 @@ def load_all_walks_tags(folder, keep_en):
     :param keep_en: only keeps english tags
     :return: dataframe containing all the tags
     """
+    def process(tags):
+        res = []
+        for t in tags[1:-1].replace("'", '').split(', '):
+            if keep_en:
+                if nlp(str(t))._.language['language'] == 'en':
+                    res.append(t)
+            else:
+                res.append(t)
+
+        return ' '.join(res) if len(res) > 0 else np.nan
+
+    if(os.path.isfile(os.path.join(folder,'all_infos.csv.bz2'))):
+        df = pd.read_csv(os.path.join(folder,'all_infos.csv.bz2'), compression='bz2', encoding='utf-8', index_col=0)
+        df['keywords'] = df['keywords'].apply(process)
+        return df
 
     def processing(path, walk):
         df = load_walk(path, 'infos')
-
-        def process(tags):
-            res = []
-            for t in tags[1:-1].replace("'", '').split(', '):
-                if keep_en:
-                    if nlp(str(t))._.language['language'] == 'en':
-                        res.append(t)
-                else:
-                    res.append(t)
-
-            return ' '.join(res) if len(res) > 0 else np.nan
-
         df['keywords'] = df['keywords'].apply(process)
         df['walk'] = walk
         return df
