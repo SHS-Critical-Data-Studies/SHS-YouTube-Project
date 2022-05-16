@@ -1,6 +1,7 @@
 import re
 import nltk
 from gensim.corpora import Dictionary
+from gensim.models.phrases import Phrases
 from nltk import WordNetLemmatizer
 from nltk.corpus import stopwords
 en_stopwords = set(stopwords.words('english'))
@@ -43,6 +44,11 @@ def preprocess(comment, tag=False):
     for i in range(len(words_tokens)):
         if words_tokens[i].isupper():
             words_tokens[i] = words_tokens[i].lower()
+
+    # Bi-grams
+    bigrams_model = Phrases(words_tokens)
+    words_tokens = bigrams_model[words_tokens]
+    words_tokens = list(set(words_tokens))
 
     # Lemmatization avec WordNet
     lemmatizer = WordNetLemmatizer()
