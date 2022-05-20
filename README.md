@@ -1,6 +1,6 @@
 # Où nous emmenènent les recommendations YouTube ? - Critical Data Studies
 
-Rapport : [https://github.com/SHS-Critical-Data-Studies/SHS-YouTube-Project/blob/main/Rapport.pdf](todo)
+Rapport : [lien](https://github.com/SHS-Critical-Data-Studies/SHS-YouTube-Project/blob/main/Rapport.pdf)
 
 ## Structure du projet
 
